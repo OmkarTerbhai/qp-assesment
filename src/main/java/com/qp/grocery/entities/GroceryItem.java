@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import utils.GroceryCategoryEnum;
+import com.qp.grocery.utils.GroceryCategoryEnum;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -34,4 +35,10 @@ public class GroceryItem extends BasicEntity {
 
     @Column(nullable = false)
     private Integer inventoryCount;
+
+    @PrePersist
+    void persist() {
+        this.setCreatedAt(LocalDateTime.now());
+        this.setUpdatedAt(LocalDateTime.now());
+    }
 }

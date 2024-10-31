@@ -2,14 +2,17 @@ package com.qp.grocery.controllers;
 
 import com.qp.grocery.entities.GroceryItemDTO;
 import com.qp.grocery.entities.UpdateGroceryItemDTO;
+import com.qp.grocery.exceptions.InvalidPayloadException;
+import com.qp.grocery.exceptions.ItemNotFoundException;
+import com.qp.grocery.utils.ResponseData;
 import org.springframework.http.ResponseEntity;
 
 public interface IGroceryStoreController {
-    ResponseEntity<?> createGroceryItem(GroceryItemDTO groceryItem);
+    ResponseData<GroceryItemDTO> createGroceryItem(GroceryItemDTO groceryItem) throws InvalidPayloadException;
 
-    ResponseEntity<?> getGroceryItem(long id);
+    ResponseData<GroceryItemDTO> getGroceryItem(long id) throws ItemNotFoundException;
 
-    ResponseEntity<?> listGroceryItems(String name, double price, String category, int page, int size);
+    ResponseEntity<?> listGroceryItems(String name, Double price, String category, int page, int size);
 
-    ResponseEntity<?> updateGroceryItem(int id, UpdateGroceryItemDTO updateGroceryItem);
+    ResponseEntity<?> updateGroceryItem(Long id, UpdateGroceryItemDTO updateGroceryItem);
 }

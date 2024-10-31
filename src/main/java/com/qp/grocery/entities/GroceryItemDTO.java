@@ -1,13 +1,20 @@
 package com.qp.grocery.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import utils.GroceryCategoryEnum;
+import jakarta.persistence.PrePersist;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class GroceryItemDTO {
+
+    long id;
 
     private String name;
 
@@ -18,4 +25,15 @@ public class GroceryItemDTO {
     private String category;
 
     private Integer inventoryCount;
+
+    public GroceryItemDTO(GroceryItem item) {
+        this.id = item.getId();
+        this.name = item.getName();
+        this.category = item.getCategory().getValue();
+        this.price = item.getPrice();
+        this.description = item.getDescription();
+        this.inventoryCount = item.getInventoryCount();
+    }
+
+
 }
