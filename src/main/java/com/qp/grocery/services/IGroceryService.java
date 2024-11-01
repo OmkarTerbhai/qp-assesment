@@ -16,7 +16,9 @@ public interface IGroceryService {
 
     ResponseData<List<GroceryItemDTO>> getGroceryItems(String name, Double price, String category, int page, int size);
 
-    ResponseData<GroceryItemDTO> updateGroceryItem(Long id, UpdateGroceryItemDTO dto);
+    ResponseData<GroceryItemDTO> updateGroceryItem(Long id, UpdateGroceryItemDTO dto) throws ItemNotFoundException;
 
-    GroceryItemDTO updateGroceryItem(int id, GroceryItemDTO dto);
+    ResponseData<GroceryItemDTO> updateGroceryItem(Long id, GroceryItemDTO dto) throws InvalidPayloadException, ItemNotFoundException;
+
+    ResponseData<GroceryItemDTO> deleteGroceryItem(Long id) throws ItemNotFoundException;
 }

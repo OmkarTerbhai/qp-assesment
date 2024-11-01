@@ -47,11 +47,27 @@ public class GroceryController implements IGroceryStoreController {
 
     @Override
     @PutMapping("/")
-    public ResponseEntity<?> updateGroceryItem(@RequestParam Long id, @RequestBody UpdateGroceryItemDTO updateGroceryItem) {
+    public ResponseEntity<ResponseData<GroceryItemDTO>> updateGroceryItem(@RequestParam Long id, @RequestBody UpdateGroceryItemDTO updateGroceryItem) throws ItemNotFoundException {
         ResponseData<GroceryItemDTO> apiRes = this.groceryService.updateGroceryItem(id, updateGroceryItem);
 
         ResponseEntity<ResponseData<GroceryItemDTO>> res = new ResponseEntity<>(apiRes, HttpStatus.CREATED);
 
         return res;
+    }
+
+    @Override
+    @PatchMapping("/")
+    public ResponseEntity<ResponseData<GroceryItemDTO>> updateGroceryItem(@RequestParam Long id, @RequestBody GroceryItemDTO dto) throws InvalidPayloadException, ItemNotFoundException {
+        ResponseData<GroceryItemDTO> apiRes = this.groceryService.updateGroceryItem(id, dto);
+
+        return new ResponseEntity<ResponseData<GroceryItemDTO>>(apiRes, HttpStatus.CREATED);
+    }
+
+    @Override
+    @DeleteMapping("/")
+    public ResponseEntity<ResponseData<GroceryItemDTO>> deleteGroceryItem(@RequestParam Long id) throws ItemNotFoundException {
+        ResponseData<GroceryItemDTO> apiRes = groceryService.deleteGroceryItem(id);
+
+        return new ResponseEntity<ResponseData<GroceryItemDTO>>(apiRes, HttpStatus.OK);
     }
 }

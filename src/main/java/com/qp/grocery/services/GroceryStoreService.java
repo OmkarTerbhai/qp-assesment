@@ -71,7 +71,7 @@ public class GroceryStoreService implements IGroceryService {
     }
 
     @Override
-    public ResponseData<GroceryItemDTO> updateGroceryItem(Long id, UpdateGroceryItemDTO dto) {
+    public ResponseData<GroceryItemDTO> updateGroceryItem(Long id, UpdateGroceryItemDTO dto) throws ItemNotFoundException {
         if(StringUtils.isBlank(dto.getName())) {
             throw new IllegalArgumentException("Item to be updated must have a name");
         }
@@ -92,8 +92,35 @@ public class GroceryStoreService implements IGroceryService {
     }
 
     @Override
-    public GroceryItemDTO updateGroceryItem(int id, GroceryItemDTO dto) {
-        return null;
+    public ResponseData<GroceryItemDTO> updateGroceryItem(Long id, GroceryItemDTO dto) throws InvalidPayloadException, ItemNotFoundException {
+        validateGroceryItem(dto);
+        populateGroceryItem(dto);
+
+        GroceryItem item = groceryStoreRepository.updateGroceryItem(id, dto);
+        GroceryItemDTO itemDTO = new GroceryItemDTO(item);
+        ResponseData<GroceryItemDTO> res = ResponseData.<GroceryItemDTO>builder()
+                .entity(itemDTO)
+                .success(true)
+                .successMsg("Updated Grocery item with id : " + id)
+                .failedMsg(null)
+                .build();
+
+        return res;
+    }
+
+    @Override
+    public ResponseData<GroceryItemDTO> deleteGroceryItem(Long id) throws ItemNotFoundException {
+        GroceryItem item = this.groceryStoreRepository.deleteGroceryItem(id);
+        GroceryItemDTO itemDTO = new GroceryItemDTO(item);
+
+        ResponseData<GroceryItemDTO> res = ResponseData.<GroceryItemDTO>builder()
+                .entity(itemDTO)
+                .success(true)
+                .successMsg("Deleted item with id " + id)
+                .failedMsg(null)
+                .build();
+
+        return res;
     }
 
     private void validateGroceryItem(GroceryItemDTO dto) throws InvalidPayloadException {

@@ -15,7 +15,9 @@ public interface IGroceryStoreDAO {
 
     List<GroceryItem> getGroceryItems(String name, Double price, String category, int page, int size);
 
-    GroceryItem updateGroceryItem(Long id, UpdateGroceryItemDTO dto);
+    GroceryItem updateGroceryItem(Long id, UpdateGroceryItemDTO dto) throws ItemNotFoundException;
 
-    GroceryItem updateGroceryItem(int id, GroceryItemDTO dto);
+    GroceryItem updateGroceryItem(Long id, GroceryItemDTO dto) throws ItemNotFoundException;
+
+    GroceryItem deleteGroceryItem(Long id) throws ItemNotFoundException;
 }

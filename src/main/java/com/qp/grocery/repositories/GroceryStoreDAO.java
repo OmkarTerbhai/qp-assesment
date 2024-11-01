@@ -51,9 +51,9 @@ public class GroceryStoreDAO implements IGroceryStoreDAO {
     }
 
     @Override
-    public GroceryItem updateGroceryItem(Long id, UpdateGroceryItemDTO dto) {
+    public GroceryItem updateGroceryItem(Long id, UpdateGroceryItemDTO dto) throws ItemNotFoundException {
         GroceryItem item = this.groceryRepository.findById(id).
-                orElseThrow(() -> new IllegalArgumentException("Could not find item with id " + id));
+                orElseThrow(() -> new ItemNotFoundException("Could not find item with id " + id));
 
         item.setName(dto.getName());
         item.setPrice(BigDecimal.valueOf(dto.getPrice()));
@@ -62,7 +62,32 @@ public class GroceryStoreDAO implements IGroceryStoreDAO {
     }
 
     @Override
-    public GroceryItem updateGroceryItem(int id, GroceryItemDTO dto) {
-        return null;
+    public GroceryItem updateGroceryItem(Long id, GroceryItemDTO dto) throws ItemNotFoundException {
+        GroceryItem item = this.groceryRepository.findById(id).
+                orElseThrow(() -> new ItemNotFoundException("Could not find item with id " + id));
+
+        getUpdatedGroceryItemEntity(item, dto);
+        groceryRepository.save(item);
+
+        return item;
+    }
+
+    @Override
+    public GroceryItem deleteGroceryItem(Long id) throws ItemNotFoundException {
+        GroceryItem item = groceryRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException("Could not find item with id : " + id));
+
+        groceryRepository.delete(item);
+        return item;
+    }
+
+    private GroceryItem getUpdatedGroceryItemEntity(GroceryItem item, GroceryItemDTO dto) {
+        item.setName(dto.getName());
+        item.setCategory(GroceryCategoryEnum.getCategory(dto.getCategory()));
+        item.setPrice(dto.getPrice());
+        item.setInventoryCount(dto.getInventoryCount());
+        item.setDescription(dto.getDescription());
+
+        return item;
     }
 }

@@ -38,7 +38,7 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler({Exception.class})
-    public ResponseEntity<ResponseData> handleException(InvalidPayloadException e, WebRequest w) {
+    public ResponseEntity<ResponseData> handleException(Exception e, WebRequest w) {
         ResponseData res = ResponseData.builder()
                 .entity(null)
                 .success(false)

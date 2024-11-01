@@ -41,4 +41,9 @@ public class GroceryItem extends BasicEntity {
         this.setCreatedAt(LocalDateTime.now());
         this.setUpdatedAt(LocalDateTime.now());
     }
+
+    @PreUpdate
+    void update() {
+        this.setUpdatedAt(LocalDateTime.now());
+    }
 }

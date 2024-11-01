@@ -14,5 +14,9 @@ public interface IGroceryStoreController {
 
     ResponseEntity<?> listGroceryItems(String name, Double price, String category, int page, int size);
 
-    ResponseEntity<?> updateGroceryItem(Long id, UpdateGroceryItemDTO updateGroceryItem);
+    ResponseEntity<?> updateGroceryItem(Long id, UpdateGroceryItemDTO updateGroceryItem) throws ItemNotFoundException;
+
+    ResponseEntity<?> updateGroceryItem(Long id, GroceryItemDTO updateGroceryItem) throws InvalidPayloadException, ItemNotFoundException;
+
+    ResponseEntity<?> deleteGroceryItem(Long id) throws ItemNotFoundException;
 }
