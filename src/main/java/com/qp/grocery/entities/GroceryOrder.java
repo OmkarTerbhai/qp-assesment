@@ -5,40 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.qp.grocery.utils.GroceryCategoryEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroceryItem extends BasicEntity {
+public class GroceryOrder extends BasicEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private BigDecimal orderPrice;
 
-    @Column(nullable = false)
-    private BigDecimal price;
-
-    @Column
-    private String description;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private GroceryCategoryEnum category;
-
-    @Column(nullable = false)
-    private Integer inventoryCount;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id") // Column to store the order ID
-    private GroceryOrder groceryOrder;
+    @OneToMany(mappedBy = "groceryOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroceryItem> items;
 
     @PrePersist
     void persist() {
@@ -50,4 +36,5 @@ public class GroceryItem extends BasicEntity {
     void update() {
         this.setUpdatedAt(LocalDateTime.now());
     }
+
 }

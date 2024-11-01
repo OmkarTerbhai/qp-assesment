@@ -3,6 +3,7 @@ package com.qp.grocery.services;
 import com.qp.grocery.entities.GroceryItem;
 import com.qp.grocery.entities.GroceryItemDTO;
 import com.qp.grocery.entities.UpdateGroceryItemDTO;
+import com.qp.grocery.entities.UpdateInventoryCountDTO;
 import com.qp.grocery.exceptions.InvalidPayloadException;
 import com.qp.grocery.exceptions.ItemNotFoundException;
 import com.qp.grocery.repositories.IGroceryStoreDAO;
@@ -117,6 +118,23 @@ public class GroceryStoreService implements IGroceryService {
                 .entity(itemDTO)
                 .success(true)
                 .successMsg("Deleted item with id " + id)
+                .failedMsg(null)
+                .build();
+
+        return res;
+    }
+
+    @Override
+    public ResponseData<GroceryItemDTO> updateInventoryCount(UpdateInventoryCountDTO dto) throws InvalidPayloadException, ItemNotFoundException {
+        if(dto.getUpdateCount() == 0) {
+            throw new InvalidPayloadException("Update count must be greater than zero");
+        }
+        GroceryItem item = groceryStoreRepository.updateInventoryCount(dto);
+        GroceryItemDTO itemDTO = new GroceryItemDTO(item);
+        ResponseData<GroceryItemDTO> res = ResponseData.<GroceryItemDTO>builder()
+                .entity(itemDTO)
+                .success(true)
+                .successMsg("Updated inventory count")
                 .failedMsg(null)
                 .build();
 

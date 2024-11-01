@@ -3,6 +3,8 @@ package com.qp.grocery.repositories;
 import com.qp.grocery.entities.GroceryItem;
 import com.qp.grocery.entities.GroceryItemDTO;
 import com.qp.grocery.entities.UpdateGroceryItemDTO;
+import com.qp.grocery.entities.UpdateInventoryCountDTO;
+import com.qp.grocery.exceptions.InvalidPayloadException;
 import com.qp.grocery.exceptions.ItemNotFoundException;
 import com.qp.grocery.utils.GroceryCategoryEnum;
 import org.apache.commons.lang3.StringUtils;
@@ -78,6 +80,29 @@ public class GroceryStoreDAO implements IGroceryStoreDAO {
                 .orElseThrow(() -> new ItemNotFoundException("Could not find item with id : " + id));
 
         groceryRepository.delete(item);
+        return item;
+    }
+
+    @Override
+    public GroceryItem updateInventoryCount(UpdateInventoryCountDTO dto) throws ItemNotFoundException, InvalidPayloadException {
+        GroceryItem item = this.groceryRepository.findById(dto.getId())
+                .orElseThrow(() -> new ItemNotFoundException("Could not find item with id " + dto.getId()));
+
+        if(dto.isIncr())
+            item.setInventoryCount(item.getInventoryCount() + dto.getUpdateCount());
+        else {
+            int updatedCnt = item.getInventoryCount() - dto.getUpdateCount();
+            if(updatedCnt < 0) {
+                throw new InvalidPayloadException("Cannot decrease inventory count to less than zero");
+            }
+            if(updatedCnt == 0) {
+                throw new InvalidPayloadException("Cannot update inventory count to zero, please explicitly delete the item");
+            }
+            item.setInventoryCount(updatedCnt);
+        }
+
+        groceryRepository.save(item);
+
         return item;
     }
 

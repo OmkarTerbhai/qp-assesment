@@ -2,6 +2,7 @@ package com.qp.grocery.controllers;
 
 import com.qp.grocery.entities.GroceryItemDTO;
 import com.qp.grocery.entities.UpdateGroceryItemDTO;
+import com.qp.grocery.entities.UpdateInventoryCountDTO;
 import com.qp.grocery.exceptions.InvalidPayloadException;
 import com.qp.grocery.exceptions.ItemNotFoundException;
 import com.qp.grocery.services.IGroceryService;
@@ -69,5 +70,13 @@ public class GroceryController implements IGroceryStoreController {
         ResponseData<GroceryItemDTO> apiRes = groceryService.deleteGroceryItem(id);
 
         return new ResponseEntity<ResponseData<GroceryItemDTO>>(apiRes, HttpStatus.OK);
+    }
+
+    @Override
+    @PutMapping("/inventory")
+    public ResponseEntity<?> updateInventory(@RequestBody UpdateInventoryCountDTO updateGroceryItem) throws InvalidPayloadException, ItemNotFoundException {
+        ResponseData<GroceryItemDTO> apiRes = groceryService.updateInventoryCount(updateGroceryItem);
+
+        return new ResponseEntity<>(apiRes, HttpStatus.CREATED);
     }
 }

@@ -2,6 +2,7 @@ package com.qp.grocery.controllers;
 
 import com.qp.grocery.entities.GroceryItemDTO;
 import com.qp.grocery.entities.UpdateGroceryItemDTO;
+import com.qp.grocery.entities.UpdateInventoryCountDTO;
 import com.qp.grocery.exceptions.InvalidPayloadException;
 import com.qp.grocery.exceptions.ItemNotFoundException;
 import com.qp.grocery.utils.ResponseData;
@@ -19,4 +20,7 @@ public interface IGroceryStoreController {
     ResponseEntity<?> updateGroceryItem(Long id, GroceryItemDTO updateGroceryItem) throws InvalidPayloadException, ItemNotFoundException;
 
     ResponseEntity<?> deleteGroceryItem(Long id) throws ItemNotFoundException;
+
+    ResponseEntity<?> updateInventory(UpdateInventoryCountDTO updateGroceryItem) throws InvalidPayloadException, ItemNotFoundException;
+
 }
