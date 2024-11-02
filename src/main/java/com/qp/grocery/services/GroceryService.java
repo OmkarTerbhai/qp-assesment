@@ -1,15 +1,15 @@
 package com.qp.grocery.services;
 
-import com.qp.grocery.entities.GroceryItemDTO;
-import com.qp.grocery.entities.UpdateGroceryItemDTO;
-import com.qp.grocery.entities.UpdateInventoryCountDTO;
+import com.qp.grocery.dtos.GroceryItemDTO;
+import com.qp.grocery.dtos.UpdateGroceryItemDTO;
+import com.qp.grocery.dtos.UpdateInventoryCountDTO;
 import com.qp.grocery.exceptions.InvalidPayloadException;
 import com.qp.grocery.exceptions.ItemNotFoundException;
 import com.qp.grocery.utils.ResponseData;
 
 import java.util.List;
 
-public interface IGroceryService {
+public interface GroceryService {
 
     ResponseData<GroceryItemDTO> createGroceryItem(GroceryItemDTO dto) throws InvalidPayloadException;
 

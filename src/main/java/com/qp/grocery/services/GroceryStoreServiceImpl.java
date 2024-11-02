@@ -1,15 +1,14 @@
 package com.qp.grocery.services;
 
 import com.qp.grocery.entities.GroceryItem;
-import com.qp.grocery.entities.GroceryItemDTO;
-import com.qp.grocery.entities.UpdateGroceryItemDTO;
-import com.qp.grocery.entities.UpdateInventoryCountDTO;
+import com.qp.grocery.dtos.GroceryItemDTO;
+import com.qp.grocery.dtos.UpdateGroceryItemDTO;
+import com.qp.grocery.dtos.UpdateInventoryCountDTO;
 import com.qp.grocery.exceptions.InvalidPayloadException;
 import com.qp.grocery.exceptions.ItemNotFoundException;
-import com.qp.grocery.repositories.IGroceryStoreDAO;
+import com.qp.grocery.repositories.GroceryStoreDAO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.qp.grocery.utils.GroceryCategoryEnum;
 import com.qp.grocery.utils.ResponseData;
@@ -20,10 +19,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class GroceryStoreService implements IGroceryService {
+public class GroceryStoreServiceImpl implements GroceryService {
 
     @Autowired
-    private IGroceryStoreDAO groceryStoreRepository;
+    private GroceryStoreDAO groceryStoreRepository;
     @Override
     public ResponseData<GroceryItemDTO> createGroceryItem(GroceryItemDTO dto) throws InvalidPayloadException {
 

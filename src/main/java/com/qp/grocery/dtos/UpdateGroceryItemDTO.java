@@ -1,4 +1,4 @@
-package com.qp.grocery.entities;
+package com.qp.grocery.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

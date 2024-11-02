@@ -1,11 +1,11 @@
 package com.qp.grocery.controllers;
 
-import com.qp.grocery.entities.GroceryItemDTO;
-import com.qp.grocery.entities.UpdateGroceryItemDTO;
-import com.qp.grocery.entities.UpdateInventoryCountDTO;
+import com.qp.grocery.dtos.GroceryItemDTO;
+import com.qp.grocery.dtos.UpdateGroceryItemDTO;
+import com.qp.grocery.dtos.UpdateInventoryCountDTO;
 import com.qp.grocery.exceptions.InvalidPayloadException;
 import com.qp.grocery.exceptions.ItemNotFoundException;
-import com.qp.grocery.services.IGroceryService;
+import com.qp.grocery.services.GroceryService;
 import com.qp.grocery.utils.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,13 +16,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/admin/grocery")
-public class GroceryController implements IGroceryStoreController {
+public class GroceryStoreControllerImpl implements GroceryStoreController {
 
     @Autowired
-    private IGroceryService groceryService;
+    private GroceryService groceryService;
 
     @Override
-    @PostMapping("/")
+    @PostMapping
     public ResponseData<GroceryItemDTO> createGroceryItem(@RequestBody GroceryItemDTO groceryItem) throws InvalidPayloadException {
         return this.groceryService.createGroceryItem(groceryItem);
     }
@@ -65,7 +65,7 @@ public class GroceryController implements IGroceryStoreController {
     }
 
     @Override
-    @DeleteMapping("/")
+    @DeleteMapping
     public ResponseEntity<ResponseData<GroceryItemDTO>> deleteGroceryItem(@RequestParam Long id) throws ItemNotFoundException {
         ResponseData<GroceryItemDTO> apiRes = groceryService.deleteGroceryItem(id);
 

@@ -1,5 +1,6 @@
-package com.qp.grocery.entities;
+package com.qp.grocery.dtos;
 
+import com.qp.grocery.entities.GroceryItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
