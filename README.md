@@ -8,3 +8,8 @@ Execute the commands in the root directory of the project:-\
 
 Make sure you add database url, username and password\
 in a `.env` file.\
+
+Steps to execute the project without docker:-\
+
+`1.` ./gradlew bootJar\
+`2.` java -jar ./build/libs/grocery-0.0.1-SNAPSHOT.jar\
