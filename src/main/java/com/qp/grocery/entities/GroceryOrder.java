@@ -23,7 +23,7 @@ public class GroceryOrder extends BasicEntity {
     @Column(nullable = false)
     private BigDecimal orderPrice;
 
-    @OneToMany(mappedBy = "groceryOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "groceryOrder")
     private List<GroceryItem> items;
 
     @PrePersist

@@ -1,14 +1,11 @@
 package com.qp.grocery.repositories;
 
-import com.qp.grocery.dtos.CreateOrderDTO;
-import com.qp.grocery.entities.GroceryItem;
-import com.qp.grocery.dtos.ItemOrderDTO;
 import com.qp.grocery.entities.GroceryOrder;
 import com.qp.grocery.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 
 @Repository
 public class OrderDAOImpl implements OrderDAO {
@@ -20,8 +17,8 @@ public class OrderDAOImpl implements OrderDAO {
     private GroceryRepository groceryRepository;
 
     @Override
-    public GroceryOrder createOrder(CreateOrderDTO dto) throws ItemNotFoundException {
-        GroceryOrder groceryOrder = getOrderFromDTO(dto);
+    @Transactional
+    public GroceryOrder createOrder(GroceryOrder groceryOrder) throws ItemNotFoundException {
         this.orderRepository.save(groceryOrder);
         return groceryOrder;
     }
@@ -32,23 +29,10 @@ public class OrderDAOImpl implements OrderDAO {
                 .orElseThrow(() ->
                         new ItemNotFoundException("Could not find item with id " + id));
 
+        groceryOrder.getItems().forEach(item -> item.setGroceryOrder(null));
+
         this.orderRepository.deleteById(id);
 
-        return groceryOrder;
-    }
-
-    private GroceryOrder getOrderFromDTO(CreateOrderDTO dto) throws ItemNotFoundException {
-        GroceryOrder groceryOrder = new GroceryOrder();
-        groceryOrder.setOrderPrice(dto.getPrice());
-        groceryOrder.setItems(new ArrayList<>());
-        for(ItemOrderDTO itemOrderDTO : dto.getItems()) {
-            GroceryItem item = groceryRepository.findById(itemOrderDTO.getItemId())
-                    .orElseThrow(() ->
-                            new ItemNotFoundException("Could not find item with id " + itemOrderDTO.getItemId()));
-
-            item.setGroceryOrder(groceryOrder);
-            groceryOrder.getItems().add(item);
-        }
         return groceryOrder;
     }
 }

@@ -144,6 +144,9 @@ public class GroceryStoreServiceImpl implements GroceryService {
         if(Objects.isNull(dto)) {
             throw new InvalidPayloadException("Grocery Item to be created cannot be null");
         }
+        if(dto.getInventoryCount() == 0) {
+            throw new InvalidPayloadException("New grocery Item cannot have zero inventory count");
+        }
         if(StringUtils.isBlank(dto.getName())) {
             throw new InvalidPayloadException("Grocery Item cannot have empty name");
         }
